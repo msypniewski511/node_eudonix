@@ -3,28 +3,33 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 
+// Init app
 const app = express();
-
-// Set jade as view template
+// Set template folder
 app.set("views", path.join(__dirname, "views"));
+// Set jade as view template
 app.set("view engine", "jade");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// Add static to path
+app.use(express.static(path.join(__dirname, "public")));
 
+// Set Routes
 app.get("/", function(req, res) {
-  console.log("Hello World");
-  res.render("index", { active: "index" });
+  res.render("index", { title: "Home", active: "index" });
 });
 
 app.get("/about", function(req, res) {
-  console.log("Hello World");
-  res.render("about", { title: "Welcom", active: "about" });
+  res.render("about", { title: "About Us", active: "about" });
+});
+
+app.get("/services", function(req, res) {
+  res.render("services", { title: "Srvices", active: "services" });
 });
 
 app.get("/contact", function(req, res) {
-  console.log("Hello World");
-  res.render("contact", { title: "Welcom", active: "contact" });
+  res.render("contact", { title: "Contact", active: "contact" });
 });
 
 app.post("/contact/send", function(req, res) {
@@ -73,5 +78,6 @@ app.post("/contact/send", function(req, res) {
     }
   });
 });
+// End of routes
 app.listen(3000);
 console.log("Server is running on port 3000...");
